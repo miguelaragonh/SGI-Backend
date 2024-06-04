@@ -1,5 +1,6 @@
 const sequelize = require('../db/config')
 const { Model, DataTypes } = require("sequelize");
+const T_Departamento = require('./T_Departamento'); 
 
 class Usuario extends Model {}
 
@@ -30,11 +31,19 @@ Usuario.init(
       allowNull: false,
       type: DataTypes.STRING,
     },
+    CN_Id_Departamento: {
+      allowNull: false,
+      type: DataTypes.INTEGER, 
+      references: {
+        model: T_Departamento, 
+        key: 'CN_Id_Depa' 
+      }
+    }
   },
   {
     sequelize,
     modelName: "Usuario",
+    tableName: "Usuarios",
   }
 );
-
 module.exports = Usuario;

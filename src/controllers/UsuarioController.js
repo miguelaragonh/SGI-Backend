@@ -19,10 +19,17 @@ module.exports = {
               },
               "secret",
               {
-                expiresIn: 60,
+                expiresIn: '1h',
               }
             );
 
+            res.cookie("token", token, {
+              httpOnly: false,
+              secure: true,
+              sameSite: "none",
+            });
+
+            
             res.status(201).json({
               usuario: usuario,
               token:token
@@ -53,6 +60,7 @@ module.exports = {
       CT_Contraseña: bcrypt.hashSync(req.body.CT_Contraseña, 10),
       CN_Numero_Telefonico: req.body.CN_Numero_Telefonico,
       CT_Puesto: req.body.CT_Puesto,
+      CN_Id_Departamento: req.body.CN_Id_Departamento,
     })
       .then((usuario) => {
         /*let token = jwt.sign(
@@ -65,7 +73,7 @@ module.exports = {
             });*/
 
         res.status(201).json({
-          usuario: usuario,
+         usuario,
           //token:token
         });
       })
@@ -80,7 +88,7 @@ async getUsuarios(req, res) {
     res.json(usuarios);
   },
 
-  async getUsuario(req, res){
+async getUsuario(req, res){
     try {
       const usuario = await Usuario.findOne({
         where: {
@@ -98,4 +106,32 @@ async getUsuarios(req, res) {
       res.status(500).json({ message: "Error interno del servidor" });
     }
   },
+
+async editarUsuario(req, res) {
+    try {
+      const usuario = await Usuario.findOne({
+        where: {
+          CT_Codigo_Usuario: req.params.id,
+        },
+      });
+  
+      if (usuario) {
+        usuario.CT_Nombre = req.body.CT_Nombre;
+        usuario.CT_Usuario = req.body.CT_Usuario;
+        usuario.CT_Contraseña = bcrypt.hashSync(req.body.CT_Contraseña, 10);
+        usuario.CN_Numero_Telefonico = req.body.CN_Numero_Telefonico;
+        usuario.CT_Puesto = req.body.CT_Puesto;
+        usuario.CN_Id_Departamento = req.body.CN_Id_Departamento;
+  
+        await usuario.save();
+  
+        res.json(usuario);
+      } else {
+        res.status(404).json({ message: "Usuario no encontrado" });
+      }
+    } catch (error) {
+      console.error("Error al editar el usuario:", error);
+      res.status(500).json({ message: "Error interno del servidor" });
+    }
+  }
 };
