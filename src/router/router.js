@@ -16,10 +16,11 @@ const IncidenciaController = require("../controllers/IncidenciaController");
 router.post("/usuarios/iniciar", usuarioController.iniciarSesion);
 
 /*"""""""""""""""""Gestionar Usuarios""""""""""""""""" */
-router.post("/usuarios/crear", auth, usuarioController.crearUsuario);
+router.post("/usuarios/crear", usuarioController.crearUsuario);
 router.post("/usuarios/editar/:id", usuarioController.editarUsuario);
 router.get("/usuarios", usuarioController.getUsuarios);
-router.get("/usuarios/:id", auth, usuarioController.getUsuario);
+router.get("/usuarios/:id", usuarioController.getUsuario);
+router.put("/usuarios/contrasena/:id", usuarioController.cambiarContraseña);
 /*'''''''''''''''''''''''''''''''''''''''''''''''''''' */
 
 /*"""""""""""""""""Gestionar Roles""""""""""""""""" */
@@ -56,6 +57,7 @@ router.post("/rol/asignado/:id", UsuarioRolController.editarRolAsignado);
 
 /*"""""""""""""""""Gestionar Incidencias""""""""""""""""" */
 router.get("/incidencia", IncidenciaController.getIncidencias);
-router.post("/incidencia/crear", IncidenciaController.crearInicidencia);
+router.post("/incidencia/crear", IncidenciaController.crearIncidencia);
+router.post("/incidencia/asignar/:id", IncidenciaController.asignarIncidencia);
 /*'''''''''''''''''''''''''''''''''''''''''''''''''''*/
 module.exports = router;

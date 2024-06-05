@@ -133,5 +133,27 @@ async editarUsuario(req, res) {
       console.error("Error al editar el usuario:", error);
       res.status(500).json({ message: "Error interno del servidor" });
     }
+  },
+async cambiarContraseña(req, res) {
+    try {
+      const usuario = await Usuario.findOne({
+        where: {
+          CT_Codigo_Usuario: req.params.id,
+        },
+      });
+      if (usuario) {
+        usuario.CT_Contraseña = bcrypt.hashSync(req.body.CT_Contraseña, 10);
+        await usuario.save();
+        res.json(usuario);
+      } else {
+        res.status(404).json({ message: "Usuario no encontrado" });
+      }
+    } catch (error) {
+      console.error("Error al editar el usuario:", error);
+      res.status(500).json({ message: "Error interno del servidor" });
+    }
   }
+
+
+
 };
