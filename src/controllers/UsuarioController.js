@@ -11,23 +11,15 @@ module.exports = {
         CT_Usuario: CT_Usuario,
       },
     }).then((usuario) => {
+      console.log(usuario);
         if (usuario) {
           if (bcrypt.compareSync(CT_Contraseña, usuario.CT_Contraseña)) {
             let token = jwt.sign(
               {
                 usuario: usuario,
               },
-              "secret",
-              {
-                expiresIn: '1h',
-              }
+              "secret"
             );
-
-            res.cookie("token", token, {
-              httpOnly: false,
-              secure: true,
-              sameSite: "none",
-            });
 
             
             res.status(201).json({
@@ -42,7 +34,7 @@ module.exports = {
             });
             console.log('Datos erroneos')
           }
-        } else {
+        } else if (!usuario){
           res.status(404).json({
             msg: "Usuario no encontrado",
           });
@@ -79,12 +71,24 @@ module.exports = {
       })
       .catch((e) => {
         console.log(e);
-        res.status(500).json(e);
+        if(e){
+          res.status(500).json({
+            msg: "cedula o correo existente",
+          });
+        }
+        //res.status(500).json(e);
       });
   },
 
 async getUsuarios(req, res) {
-    let usuarios = await Usuario.findAll();
+    let usuarios = await Usuario.findAll({
+      include: [
+        {
+          association: Usuario.T_Departamento,
+          attributes: ["CT_Descripcion"],
+        },
+      ],
+    });
     res.json(usuarios);
   },
 
@@ -114,11 +118,11 @@ async editarUsuario(req, res) {
           CT_Codigo_Usuario: req.params.id,
         },
       });
-  
+      console.log("Body");
+      console.log(req.body);
       if (usuario) {
         usuario.CT_Nombre = req.body.CT_Nombre;
         usuario.CT_Usuario = req.body.CT_Usuario;
-        usuario.CT_Contraseña = bcrypt.hashSync(req.body.CT_Contraseña, 10);
         usuario.CN_Numero_Telefonico = req.body.CN_Numero_Telefonico;
         usuario.CT_Puesto = req.body.CT_Puesto;
         usuario.CN_Id_Departamento = req.body.CN_Id_Departamento;
@@ -128,7 +132,7 @@ async editarUsuario(req, res) {
         res.json(usuario);
       } else {
         res.status(404).json({ message: "Usuario no encontrado" });
-      }
+      } 
     } catch (error) {
       console.error("Error al editar el usuario:", error);
       res.status(500).json({ message: "Error interno del servidor" });

@@ -5,7 +5,7 @@ class T_Departamento extends Model {}
 
 T_Departamento.init(
   {
-    CN_Id_Depa: {
+    CN_Id_Departamento: {
       allowNull: false,
       type: DataTypes.INTEGER,
       primaryKey: true,

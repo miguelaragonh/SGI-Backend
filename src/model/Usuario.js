@@ -46,4 +46,7 @@ Usuario.init(
     tableName: "Usuarios",
   }
 );
+
+Usuario.T_Departamento = T_Departamento.belongsTo(T_Departamento, { foreignKey: "CN_Id_Departamento" });
+
 module.exports = Usuario;

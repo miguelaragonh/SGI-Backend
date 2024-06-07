@@ -57,6 +57,7 @@ router.post("/rol/asignado/:id", UsuarioRolController.editarRolAsignado);
 
 /*"""""""""""""""""Gestionar Incidencias""""""""""""""""" */
 router.get("/incidencia", IncidenciaController.getIncidencias);
+router.get("/incidencias/:id", IncidenciaController.getIncidenciasUsuario);
 router.post("/incidencia/crear", IncidenciaController.crearIncidencia);
 router.post("/incidencia/asignar/:id", IncidenciaController.asignarIncidencia);
 /*'''''''''''''''''''''''''''''''''''''''''''''''''''*/

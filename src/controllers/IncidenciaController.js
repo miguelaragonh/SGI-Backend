@@ -3,6 +3,8 @@
 const T_Incidencias = require("../model/T_Incidencias");
 const T_Crear_Incidencias = require("../model/T_Crear_Incidencias");
 const T_Asignar_Incidentes = require("../model/T_Asignar_Incidentes");
+const T_Imagenes = require("../model/T_Imagenes");
+const T_Imagenes_Incidentes = require("../model/T_Imagenes_Incidentes");
 const sendMail = require('../Mail/appMail');
 const Usuario = require("../model/Usuario");
 async function idIncidencia() {
@@ -14,6 +16,7 @@ async function idIncidencia() {
   return cod;
 }
 async function registroIncidenteUsuario(idUsuario, idIncidencia) {
+  console.log(idUsuario, idIncidencia);
   T_Crear_Incidencias.create({
     CT_Id_Incidencia: idIncidencia,
     CT_Codigo_Usuario: idUsuario,
@@ -40,7 +43,47 @@ async function enviarCorreo(idUsuario, idIncidencia) {
   console.log(correo);
  }
 
+ async function guardarImagen( id, img){
+  const imagen = T_Imagenes.create({
+    CI_imagen: img,
+  })
+  .then((imagen) => {
+    const relacion=T_Imagenes_Incidentes.create({
+      CT_Id_Incidencia: id,
+      CN_Id_Imagen: imagen.CN_Id_Imagen,
+    }).then((relacion) => {
+      console.log(imagen);
+    }).catch((e) => {
+      console.log(e);
+    });
+  })
+  .catch((e) => {
+    console.log(e);
+    res.status(500).json(e);
+  });
+}
+
 module.exports = {
+  async getIncidenciasUsuario(req, res) {
+    try {
+      let incidencias = await T_Crear_Incidencias.findAll({
+        where: {
+          CT_Codigo_Usuario: req.params.id,
+        },
+        include: [
+          {
+            association: T_Crear_Incidencias.T_Incidencias
+          }]
+      });
+      res.json(incidencias);
+    } catch (error) {
+      console.error(error);
+      res
+        .status(500)
+        .json({ message: "Hubo un error al obtener las incidencias" });
+    }
+  },
+
   async getIncidencias(req, res) {
     try {
       let incidencias = await T_Incidencias.findAll();
@@ -54,6 +97,9 @@ module.exports = {
   },
   async crearIncidencia(req, res) {
     const id = await idIncidencia();
+    const usuario = req.body.Usuario;
+    const img = req.body.img;
+
     const incidencia = T_Incidencias.create({
       CT_Id_Incidencia: id,
       CF_Fecha_Hora: new Date(),
@@ -70,8 +116,9 @@ module.exports = {
       .catch((e) => {
         console.log(e);
         res.status(500).json(e);
-      });
-    registroIncidenteUsuario(req.body.Usuario, id);
+      });  
+    registroIncidenteUsuario(usuario, id);
+    guardarImagen(id, img);
   },
 
   async asignarIncidencia(req, res) {
