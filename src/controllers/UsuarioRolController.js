@@ -56,4 +56,29 @@ module.exports = {
       res.status(500).json({ message: "Error interno del servidor" });
     }
   },
+
+  async getUsuarioTecnico(req, res) { 
+    try {
+      let usuarioTecnico = await RolesAsignados.findAll({
+        where: {
+          CN_Id_Rol: 4,
+        },
+        include: [
+          {
+            association: RolesAsignados.Usuario,
+            attributes: ["CT_Nombre"],
+          },
+        ],
+      });
+      // Mapear el resultado para modificar la estructura de "Usuario"
+      const resultadoModificado = usuarioTecnico.map(tec => ({
+        ...tec.toJSON(), // Convertir a objeto plano si es necesario
+        Usuario: tec.Usuario.CT_Nombre, // Cambiar "Usuario" a una cadena
+      }));
+      res.json(resultadoModificado);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Hubo un error al obtener los tecnicos" });
+    }
+  }
 };

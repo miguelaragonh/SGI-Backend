@@ -10,6 +10,8 @@ const estadoController = require("../controllers/EstadoController");
 const departamentoController = require("../controllers/DepartamentoController");
 const UsuarioRolController = require("../controllers/UsuarioRolController");
 const IncidenciaController = require("../controllers/IncidenciaController");
+const categoriaController = require("../controllers/CategoriaController");
+const DiagnosticosController = require("../controllers/DiagnosticosController");
 
 /*Crear Usuario*/
 
@@ -31,6 +33,10 @@ router.get("/roles", rolController.getRoles);
 router.get("/afectaciones", afectacionController.getAfectaciones);
 /*'''''''''''''''''''''''''''''''''''''''''''''''''''*/
 
+/*"""""""""""""""""Gestionar Categorias""""""""""""""""" */
+router.get("/categorias", categoriaController.getCategorias);
+/*'''''''''''''''''''''''''''''''''''''''''''''''''''*/
+
 /*"""""""""""""""""Gestionar Riesgos""""""""""""""""" */
 router.get("/riesgos", riesgoController.getRiesgos);
 /*'''''''''''''''''''''''''''''''''''''''''''''''''''*/
@@ -41,6 +47,7 @@ router.get("/prioridades", prioridadController.getPrioridades);
 
 /*"""""""""""""""""Gestionar Estados""""""""""""""""" */
 router.get("/estados", estadoController.getEstados);
+router.get("/estados/:id", estadoController.getEstado);
 /*'''''''''''''''''''''''''''''''''''''''''''''''''''*/
 
 
@@ -50,15 +57,23 @@ router.get("/departamentos", departamentoController.getDepartamentos);
 
 /*"""""""""""""""""Gestionar UsuarioRol""""""""""""""""" */
 router.get("/rol/asignados", UsuarioRolController.getRolesAsignados);
+router.get("/tecnicos", UsuarioRolController.getUsuarioTecnico);
 router.post("/rol/asignar", UsuarioRolController.asignarRol);
 router.post("/rol/asignado/:id", UsuarioRolController.editarRolAsignado);
+
 /*'''''''''''''''''''''''''''''''''''''''''''''''''''*/
 
 
 /*"""""""""""""""""Gestionar Incidencias""""""""""""""""" */
 router.get("/incidencia", IncidenciaController.getIncidencias);
+router.get("/incidenciaregistradas", IncidenciaController.getIncidenciasRegistradas);
+router.get("/incidencia-asignadas/:id", IncidenciaController.getIncidenciasAsignadasUsuario);
+router.get("/incidencia/imagen/:id", IncidenciaController.getImagen);
 router.get("/incidencias/:id", IncidenciaController.getIncidenciasUsuario);
 router.post("/incidencia/crear", IncidenciaController.crearIncidencia);
+router.post("/incidencia/crear/diagnostico", DiagnosticosController.crearDiagnostico);
+router.put("/incidencia/editar/:id", IncidenciaController.actualizarIncidencia);
 router.post("/incidencia/asignar/:id", IncidenciaController.asignarIncidencia);
+
 /*'''''''''''''''''''''''''''''''''''''''''''''''''''*/
 module.exports = router;

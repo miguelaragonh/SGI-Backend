@@ -72,6 +72,14 @@ T_Incidencias.init(
         key: "CN_Id_Categoria",
       },
     },
+    CN_Id_Estado: {
+      allowNull: true,
+      type: DataTypes.INTEGER,
+      references: {
+        model: T_Estados,
+        key: "CN_Id_Estado",
+      },
+    },
   },
   {
     sequelize,
@@ -85,6 +93,7 @@ T_Incidencias.T_Prioridad = T_Prioridad.belongsTo(T_Prioridad, {foreignKey: "CN_
 T_Incidencias.T_Riesgo = T_Riesgo.belongsTo(T_Riesgo, {foreignKey: "CN_Id_Riesgo",});
 T_Incidencias.T_Afectacion = T_Afectacion.belongsTo(T_Afectacion, {foreignKey: "CN_Id_Afectacion",});
 T_Incidencias.T_Categoria = T_Categoria.belongsTo(T_Categoria, {foreignKey: "CN_Id_Categoria",});
+T_Incidencias.T_Estados = T_Estados.belongsTo(T_Estados, {foreignKey: "CN_Id_Estado",})
 ;
 
 module.exports = T_Incidencias;
