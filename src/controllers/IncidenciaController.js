@@ -160,7 +160,7 @@ module.exports = {
       let incidencias = await T_Incidencias.findAll(
         {
           where: {
-            CN_Id_Estado: 1,
+            CN_Id_Estado: req.params.id,
           },
         }
       );
@@ -204,11 +204,11 @@ module.exports = {
           CT_Id_Incidencia: req.params.id,
         },
       });
-
+      console.log(incidencia);
       if (incidencia) {
 
         incidencia.CN_Costos = req.body.CN_Costos;
-        incidencia.CT_Duracion = req.body.CT_Duracion;
+        incidencia.CN_Duracion = req.body.CN_Duracion;
         incidencia.CN_Id_Prioridad = req.body.CN_Id_Prioridad;
         incidencia.CN_Id_Riesgo = req.body.CN_Id_Riesgo;
         incidencia.CN_Id_Afectacion = req.body.CN_Id_Afectacion;

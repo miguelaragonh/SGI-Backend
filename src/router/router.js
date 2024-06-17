@@ -12,6 +12,7 @@ const UsuarioRolController = require("../controllers/UsuarioRolController");
 const IncidenciaController = require("../controllers/IncidenciaController");
 const categoriaController = require("../controllers/CategoriaController");
 const DiagnosticosController = require("../controllers/DiagnosticosController");
+const BitacoraAccionController = require("../controllers/BitacoraAccionController");
 
 /*Crear Usuario*/
 
@@ -27,6 +28,8 @@ router.put("/usuarios/contrasena/:id", usuarioController.cambiarContraseña);
 
 /*"""""""""""""""""Gestionar Roles""""""""""""""""" */
 router.get("/roles", rolController.getRoles);
+router.get("/roles/:id", rolController.getRolUsuario);
+router.post("/roles/:id", rolController.gestionarRolUsuario);
 /*'''''''''''''''''''''''''''''''''''''''''''''''''''*/
 
 /*"""""""""""""""""Gestionar Afectacioness""""""""""""""""" */
@@ -64,9 +67,14 @@ router.post("/rol/asignado/:id", UsuarioRolController.editarRolAsignado);
 /*'''''''''''''''''''''''''''''''''''''''''''''''''''*/
 
 
+
+/*"""""""""""""""""BitacoraAccion""""""""""""""""" */
+router.post("/bitacora1", BitacoraAccionController.crearBitacoraAccion);
+/*'''''''''''''''''''''''''''''''''''''''''''''''''''*/
+
 /*"""""""""""""""""Gestionar Incidencias""""""""""""""""" */
 router.get("/incidencia", IncidenciaController.getIncidencias);
-router.get("/incidenciaregistradas", IncidenciaController.getIncidenciasRegistradas);
+router.get("/incidenciaregistradas/:id", IncidenciaController.getIncidenciasRegistradas);
 router.get("/incidencia-asignadas/:id", IncidenciaController.getIncidenciasAsignadasUsuario);
 router.get("/incidencia/imagen/:id", IncidenciaController.getImagen);
 router.get("/incidencias/:id", IncidenciaController.getIncidenciasUsuario);
