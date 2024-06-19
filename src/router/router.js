@@ -12,7 +12,7 @@ const UsuarioRolController = require("../controllers/UsuarioRolController");
 const IncidenciaController = require("../controllers/IncidenciaController");
 const categoriaController = require("../controllers/CategoriaController");
 const DiagnosticosController = require("../controllers/DiagnosticosController");
-const BitacoraAccionController = require("../controllers/BitacoraAccionController");
+const BitacoraController = require("../controllers/BitacoraController");
 
 /*Crear Usuario*/
 
@@ -61,6 +61,7 @@ router.get("/departamentos", departamentoController.getDepartamentos);
 /*"""""""""""""""""Gestionar UsuarioRol""""""""""""""""" */
 router.get("/rol/asignados", UsuarioRolController.getRolesAsignados);
 router.get("/tecnicos", UsuarioRolController.getUsuarioTecnico);
+router.get("/tecnicos/:id", IncidenciaController.getTecnicosAsignados);
 router.post("/rol/asignar", UsuarioRolController.asignarRol);
 router.post("/rol/asignado/:id", UsuarioRolController.editarRolAsignado);
 
@@ -68,10 +69,10 @@ router.post("/rol/asignado/:id", UsuarioRolController.editarRolAsignado);
 
 
 
-/*"""""""""""""""""BitacoraAccion""""""""""""""""" */
-router.post("/bitacora1", BitacoraAccionController.crearBitacoraAccion);
+/*"""""""""""""""""BitacoraS""""""""""""""""" */
+router.post("/bitacora1", BitacoraController.crearBitacoraAccion);
+router.post("/bitacora2", BitacoraController.crearBitacoraEstado);
 /*'''''''''''''''''''''''''''''''''''''''''''''''''''*/
-
 /*"""""""""""""""""Gestionar Incidencias""""""""""""""""" */
 router.get("/incidencia", IncidenciaController.getIncidencias);
 router.get("/incidenciaregistradas/:id", IncidenciaController.getIncidenciasRegistradas);
@@ -80,8 +81,11 @@ router.get("/incidencia/imagen/:id", IncidenciaController.getImagen);
 router.get("/incidencias/:id", IncidenciaController.getIncidenciasUsuario);
 router.post("/incidencia/crear", IncidenciaController.crearIncidencia);
 router.post("/incidencia/crear/diagnostico", DiagnosticosController.crearDiagnostico);
+router.get("/incidencia/diagnostico/:id", DiagnosticosController.getDiagnosticoIncidente);
 router.put("/incidencia/editar/:id", IncidenciaController.actualizarIncidencia);
+router.put("/incidencia/supervizar/:id", IncidenciaController.supervizarIncidencia);
 router.post("/incidencia/asignar/:id", IncidenciaController.asignarIncidencia);
+router.get("/reportes1/:id/:estado", IncidenciaController.reporteCargasTrabajo);
 
 /*'''''''''''''''''''''''''''''''''''''''''''''''''''*/
 module.exports = router;

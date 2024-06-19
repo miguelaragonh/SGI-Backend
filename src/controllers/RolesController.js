@@ -18,6 +18,7 @@ module.exports = {
   },
 
   async gestionarRolUsuario(req, res) {
+
     let roles = await T_Usuario_Rol.findAll({
       where: {
         CT_Codigo_Usuario: req.params.id,

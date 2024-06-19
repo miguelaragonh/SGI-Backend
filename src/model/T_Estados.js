@@ -16,13 +16,13 @@ T_Estados.init(
       type: DataTypes.STRING,
     },
     CT_Sistema: {
-        allowNull: false,
-        type: DataTypes.STRING,
-      },
-      CN_Activo: {
-        allowNull: false,
-        type: DataTypes.INTEGER
-      },
+      allowNull: false,
+      type: DataTypes.STRING,
+    },
+    CN_Activo: {
+      allowNull: false,
+      type: DataTypes.INTEGER,
+    },
   },
   {
     sequelize,

@@ -53,9 +53,10 @@ T_Diagnostico_Incidentes.T_Incidencias = T_Incidencias.belongsTo(
 T_Diagnostico_Incidentes.Usuario = Usuario.belongsTo(Usuario, {
   foreignKey: "CT_Codigo_Usuario",
 });
-T_Diagnostico_Incidentes.T_Diagnostico = T_Diagnostico.belongsTo(
-  T_Diagnostico,
-  { foreignKey: "CN_Id_Diagnostico" }
-);
+// Asociación con alias
+T_Diagnostico_Incidentes.belongsTo(T_Diagnostico, {
+  foreignKey: "CN_Id_Diagnostico",
+  as: "Diagnostico",
+});
 
 module.exports = T_Diagnostico_Incidentes;

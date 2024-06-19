@@ -40,5 +40,5 @@ T_Asignar_Incidentes.init(
 
 T_Asignar_Incidentes.T_Incidencias = T_Incidencias.belongsTo(T_Incidencias, { foreignKey: "CT_Id_Incidencia" });
 T_Asignar_Incidentes.Usuario = Usuario.belongsTo(Usuario, { foreignKey: "CT_Codigo_Usuario" });
-
+T_Incidencias.hasMany(T_Asignar_Incidentes, { foreignKey: "CT_Id_Incidencia" });
 module.exports = T_Asignar_Incidentes;

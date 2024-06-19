@@ -19,6 +19,7 @@ T_Incidencias.init(
     CF_Fecha_Hora: {
       allowNull: false,
       type: DataTypes.DATE,
+
     },
     CT_Titulo: {
       allowNull: false,
@@ -79,6 +80,10 @@ T_Incidencias.init(
         model: T_Estados,
         key: "CN_Id_Estado",
       },
+    },
+    justificacionCierre: {
+      allowNull: true,
+      type: DataTypes.STRING,
     },
   },
   {

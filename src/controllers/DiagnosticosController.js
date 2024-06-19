@@ -48,4 +48,23 @@ module.exports = {
         res.status(500).json(e);
       });
   },
+  async getDiagnosticoIncidente(req, res) {
+    try {
+      let resultados = await T_Diagnostico_Incidentes.findAll({
+        where: { CT_Id_Incidencia: req.params.id },
+        include: [{
+          model: T_Diagnostico,
+          as: 'Diagnostico',
+          attributes: ['CT_Descripcion', 'CN_Tiempo_Solucion', 'CT_Compra'],
+        }],
+      });
+      
+      // Extrae solo la información de Diagnostico
+      let diagnosticos = resultados.map(resultado => resultado.Diagnostico);
+      res.json(diagnosticos);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Hubo un error al obtener las incidencias" });
+    }
+  },
 };

@@ -1,5 +1,6 @@
 //const T_Roles = require("../model/T_Roles");
 //const Usuario = require("../model/Usuario");
+const T_Asignar_Incidentes = require("../model/T_Asignar_Incidentes");
 const RolesAsignados = require("../model/T_Usuario_Rol");
 
 module.exports = {
@@ -80,5 +81,8 @@ module.exports = {
       console.error(error);
       res.status(500).json({ message: "Hubo un error al obtener los tecnicos" });
     }
-  }
+  },
+  
+
+  
 };
