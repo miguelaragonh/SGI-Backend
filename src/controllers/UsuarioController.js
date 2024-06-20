@@ -16,17 +16,17 @@ module.exports = {
 
         if (usuario) {
             if (bcrypt.compareSync(CT_Contraseña, usuario.CT_Contraseña)) {
-                const rol = await T_Usuario_Rol.findOne({
+                const rol = await T_Usuario_Rol.findAll({
                     where: { CT_Codigo_Usuario: usuario.CT_Codigo_Usuario },
                 });
                 let token = jwt.sign({
                     usuario: usuario,
-                    rol: rol.CN_Id_Rol,
+                    rol: rol
                 }, "secret");
 
                 res.status(201).json({
                     usuario: usuario,
-                    rol: rol.CN_Id_Rol,
+                    rol: rol,
                     token: token,
                 });
                 console.log("Datos correctos");
